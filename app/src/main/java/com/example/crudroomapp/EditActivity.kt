@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.crudroomapp
 
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditActivity : AppCompatActivity() {
-    val db by lazy { NoteDB(this) }
+    private val db by lazy { NoteDB(this) }
     private var noteId: Int = 0
     private lateinit var binding : ActivityEditBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,9 +24,7 @@ class EditActivity : AppCompatActivity() {
         setupView()
         setupListener()
     }
-    fun setupView(){
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
+    private fun setupView(){
         when(intent.getIntExtra("intent_type", 0)){
             Constant.TYPE_CREATE -> {
                 binding.buttonUpdate.visibility = View.GONE
@@ -40,6 +40,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupListener() {
         binding.buttonSave.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -60,7 +61,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
     }
-    fun getNote(){
+    private fun getNote(){
         noteId = intent.getIntExtra("intent_id", 0)
         CoroutineScope(Dispatchers.IO).launch {
             val notes = db.noteDao().getNote(noteId)[0]
@@ -68,10 +69,8 @@ class EditActivity : AppCompatActivity() {
             binding.editNote.setText(notes.note)
         }
     }
-    @Suppress("DEPRECATION")
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
-
     }
 }

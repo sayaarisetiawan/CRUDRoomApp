@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         loadNote()
     }
     fun loadNote(){
-
         CoroutineScope(Dispatchers.IO).launch {
             val notes = db.noteDao().getNotes()
             Log.d("MainActivity", "dbResponse: $notes")
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun setupListener() {
         binding.buttonCreate.setOnClickListener {
-//startActivity(Intent(this, EditActivity::class.java))
+            //startActivity(Intent(this, EditActivity::class.java))
             intentEdit(0, Constant.TYPE_CREATE)
         }
     }
@@ -54,8 +53,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
     private fun setupRecyclerView() {
-        noteAdapter = NoteAdapter(arrayListOf(), object :
-            NoteAdapter.OnAdapterListener{
+        noteAdapter = NoteAdapter(arrayListOf(), object : NoteAdapter.OnAdapterListener{
             override fun onRead(note: Note) {
                 intentEdit(note.id, Constant.TYPE_READ)
             }
@@ -76,17 +74,14 @@ class MainActivity : AppCompatActivity() {
         alertDialog.apply {
             setTitle("Konfirmasi")
             setMessage("Yakin Hapus ${note.title}?" )
-
-            setNegativeButton("Batal") { dialogInterface, i ->
+            setNegativeButton("Batal") { dialogInterface, _ ->
                 dialogInterface.dismiss()
             }
-            setPositiveButton("Hapus") { dialogInterface, i ->
+            setPositiveButton("Hapus") { dialogInterface, _ ->
                 dialogInterface.dismiss()
                 CoroutineScope(Dispatchers.IO).launch {
                     db.noteDao().deleteNote(note)
-
                     loadNote()
-
                 }
             }
         }
