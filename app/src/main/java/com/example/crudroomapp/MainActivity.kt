@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     lateinit var noteAdapter: NoteAdapter
-    val db by lazy { NoteDB(this) }
+    private val db by lazy { NoteDB(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         loadNote()
     }
-    fun loadNote(){
+    private fun loadNote(){
         CoroutineScope(Dispatchers.IO).launch {
             val notes = db.noteDao().getNotes()
             Log.d("MainActivity", "dbResponse: $notes")

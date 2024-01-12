@@ -46,7 +46,10 @@ class EditActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 db.noteDao().addNote(
                     Note(0, binding.editTitle.text.toString(),
-                        binding.editNote.text.toString())
+                        binding.editDescription.text.toString(),
+                        binding.editWriter.text.toString(),
+                        binding.editPublisher.text.toString(),
+                        binding.editPublication.text.toString())
                 )
                 finish()
             }
@@ -54,8 +57,11 @@ class EditActivity : AppCompatActivity() {
         binding.buttonUpdate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 db.noteDao().updateNote(
-                    Note(noteId, binding.editTitle.text.toString(),
-                        binding.editNote.text.toString())
+                    Note(0, binding.editTitle.text.toString(),
+                        binding.editDescription.text.toString(),
+                        binding.editWriter.text.toString(),
+                        binding.editPublisher.text.toString(),
+                        binding.editPublication.text.toString())
                 )
                 finish()
             }
@@ -66,7 +72,10 @@ class EditActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val notes = db.noteDao().getNote(noteId)[0]
             binding.editTitle.setText(notes.title)
-            binding.editNote.setText(notes.note)
+            binding.editDescription.setText(notes.description)
+            binding.editWriter.setText(notes.writer)
+            binding.editPublisher.setText(notes.publisher)
+            binding.editPublication.setText(notes.publication)
         }
     }
     override fun onSupportNavigateUp(): Boolean {

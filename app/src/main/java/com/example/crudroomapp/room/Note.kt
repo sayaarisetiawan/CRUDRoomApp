@@ -7,5 +7,8 @@ data class Note (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,
-    val note: String
+    val description : String,
+    val writer : String,
+    val publisher : String,
+    val publication : String
 )
